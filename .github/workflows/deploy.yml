@@ -1,3 +1,10 @@
+name: Deploy (push to main)
+
+on:
+  push:
+    branches:
+      - main  # Ensures that the workflow is triggered when there's a push to the 'main' branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
