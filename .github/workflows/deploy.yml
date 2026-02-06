@@ -1,55 +1,62 @@
-name: Deploy (Laravel)
+name: Deploy (push to main)
 
 on:
   push:
-    branches: ["main"]   # change to "master" if that's your deploy branch
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup SSH
+      - name: Deploy to VPS via SSH (run deploy on VPS)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Sync code to server
-        run: |
-          rsync -az --delete \
-            --exclude=".git/" \
-            --exclude="node_modules/" \
-            --exclude="vendor/" \
-            --exclude=".env" \
-            --exclude="storage/" \
-            ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.DEPLOY_PATH }}/
-
-      - name: Run deploy commands
-        run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
           set -e
-          cd "${{ secrets.DEPLOY_PATH }}"
 
-          # Make sure Laravel writable dirs exist
-          mkdir -p storage bootstrap/cache
-          chmod -R ug+rw storage bootstrap/cache || true
+          mkdir -p ~/.ssh
 
-          # PHP deps
-          composer install --no-dev --optimize-autoloader
+          # IMPORTANT: use printf (more reliable than echo for multiline keys)
+          printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
+          tr -d '\r' < ~/.ssh/id_rsa > ~/.ssh/id_rsa.clean && mv ~/.ssh/id_rsa.clean ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-          # Laravel cache
-          php artisan optimize:clear || true
-          php artisan config:cache || true
-          php artisan route:cache || true
-          php artisan view:cache || true
+          # quick key validity check (helps catch "error in libcrypto" early)
+          ssh-keygen -y -f ~/.ssh/id_rsa > /dev/null
 
-          # DB (only if you want auto-migrate)
-          php artisan migrate --force || true
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+            set -e
 
-          chmod -R ug+rw storage bootstrap/cache || true
+            cd /var/www/vhosts/zipsy.co.uk/admin.zipsy.co.uk
+
+            PHP="/opt/plesk/php/8.3/bin/php"
+            if [ ! -x "$PHP" ]; then PHP="php"; fi
+
+            echo "=== Update repo ==="
+            git fetch origin
+            git checkout main
+            git reset --hard origin/main
+
+            echo "=== Composer install ==="
+            "$PHP" $(command -v composer) install --no-interaction --prefer-dist --no-dev --optimize-autoloader
+
+            echo "=== Laravel tasks ==="
+            "$PHP" artisan migrate --force || true
+            "$PHP" artisan optimize:clear || true
+            "$PHP" artisan config:cache || true
+            "$PHP" artisan route:cache || true
+            "$PHP" artisan view:cache || true
+
+            "$PHP" artisan queue:restart || true
+
+            echo "=== Fix perms ==="
+            mkdir -p storage bootstrap/cache
+            chmod -R ug+rw storage bootstrap/cache || true
+
+            echo "=== Deploy finished ==="
           EOF
