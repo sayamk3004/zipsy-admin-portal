@@ -20,14 +20,8 @@ jobs:
           set -e
 
           mkdir -p ~/.ssh
-
-          # IMPORTANT: use printf (more reliable than echo for multiline keys)
-          printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
-          tr -d '\r' < ~/.ssh/id_rsa > ~/.ssh/id_rsa.clean && mv ~/.ssh/id_rsa.clean ~/.ssh/id_rsa
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-          # quick key validity check (helps catch "error in libcrypto" early)
-          ssh-keygen -y -f ~/.ssh/id_rsa > /dev/null
 
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
             set -e
@@ -35,28 +29,58 @@ jobs:
             cd /var/www/vhosts/zipsy.co.uk/admin.zipsy.co.uk
 
             PHP="/opt/plesk/php/8.3/bin/php"
-            if [ ! -x "$PHP" ]; then PHP="php"; fi
+
+            echo "=== Using PHP ==="
+            if [ -x "$PHP" ]; then
+              ls -la "$PHP"
+              "$PHP" -v
+            else
+              echo "Plesk PHP 8.3 not found, using system php"
+              PHP="php"
+              "$PHP" -v
+            fi
+
+            echo "=== Composer ==="
+            which composer || true
+            composer -V || true
 
             echo "=== Update repo ==="
             git fetch origin
             git checkout main
             git reset --hard origin/main
 
-            echo "=== Composer install ==="
+            echo "=== Clean frontend deps ==="
+            rm -rf node_modules || true
+
+            echo "=== Install backend deps (force PHP) ==="
             "$PHP" $(command -v composer) install --no-interaction --prefer-dist --no-dev --optimize-autoloader
 
-            echo "=== Laravel tasks ==="
-            "$PHP" artisan migrate --force || true
-            "$PHP" artisan optimize:clear || true
-            "$PHP" artisan config:cache || true
-            "$PHP" artisan route:cache || true
-            "$PHP" artisan view:cache || true
+            echo "=== NPM install + build (if package.json exists) ==="
+            if [ -f package.json ]; then
+              if [ -f package-lock.json ]; then
+                npm ci
+              else
+                npm install
+              fi
+              npm run build
+            else
+              echo "No package.json, skipping frontend build"
+            fi
 
-            "$PHP" artisan queue:restart || true
+            echo "=== Laravel tasks (force PHP) ==="
+            if [ -f artisan ]; then
+              "$PHP" artisan migrate --force || true
+              "$PHP" artisan optimize:clear || true
+              "$PHP" artisan config:cache || true
+              "$PHP" artisan route:cache || true
+              "$PHP" artisan view:cache || true
+              "$PHP" artisan queue:restart || true
 
-            echo "=== Fix perms ==="
-            mkdir -p storage bootstrap/cache
-            chmod -R ug+rw storage bootstrap/cache || true
+              mkdir -p storage bootstrap/cache
+              chmod -R ug+rw storage bootstrap/cache || true
+            else
+              echo "artisan not found, skipping Laravel commands"
+            fi
 
             echo "=== Deploy finished ==="
           EOF
