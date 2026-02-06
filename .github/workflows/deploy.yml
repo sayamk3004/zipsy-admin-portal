@@ -1,10 +1,3 @@
-name: Deploy (push to main)
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -55,14 +48,15 @@ jobs:
             echo "=== Install backend deps (force PHP) ==="
             "$PHP" $(command -v composer) install --no-interaction --prefer-dist --no-dev --optimize-autoloader
 
-            echo "=== NPM install + build (if package.json exists) ==="
+            echo "=== NPM install (if package.json exists) ==="
             if [ -f package.json ]; then
               if [ -f package-lock.json ]; then
                 npm ci
               else
                 npm install
+              fi
             else
-              echo "No package.json, skipping frontend build"
+              echo "No package.json, skipping frontend install"
             fi
 
             echo "=== Laravel tasks (force PHP) ==="
