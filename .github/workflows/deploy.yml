@@ -1,0 +1,55 @@
+name: Deploy (Laravel)
+
+on:
+  push:
+    branches: ["main"]   # change to "master" if that's your deploy branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync code to server
+        run: |
+          rsync -az --delete \
+            --exclude=".git/" \
+            --exclude="node_modules/" \
+            --exclude="vendor/" \
+            --exclude=".env" \
+            --exclude="storage/" \
+            ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.DEPLOY_PATH }}/
+
+      - name: Run deploy commands
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          set -e
+          cd "${{ secrets.DEPLOY_PATH }}"
+
+          # Make sure Laravel writable dirs exist
+          mkdir -p storage bootstrap/cache
+          chmod -R ug+rw storage bootstrap/cache || true
+
+          # PHP deps
+          composer install --no-dev --optimize-autoloader
+
+          # Laravel cache
+          php artisan optimize:clear || true
+          php artisan config:cache || true
+          php artisan route:cache || true
+          php artisan view:cache || true
+
+          # DB (only if you want auto-migrate)
+          php artisan migrate --force || true
+
+          chmod -R ug+rw storage bootstrap/cache || true
+          EOF
