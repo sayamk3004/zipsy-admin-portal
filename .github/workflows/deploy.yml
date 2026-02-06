@@ -61,8 +61,6 @@ jobs:
                 npm ci
               else
                 npm install
-              fi
-              npm run build
             else
               echo "No package.json, skipping frontend build"
             fi
