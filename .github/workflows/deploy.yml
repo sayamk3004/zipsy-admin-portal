@@ -3,7 +3,7 @@ name: Deploy (push to main)
 on:
   push:
     branches:
-      - main  # Ensures that the workflow is triggered when there's a push to the 'main' branch
+      - main
 
 jobs:
   deploy:
@@ -28,6 +28,9 @@ jobs:
 
             cd /var/www/vhosts/zipsy.co.uk/admin.zipsy.co.uk
 
+            echo "=== Git safe.directory ==="
+            git config --global --add safe.directory "$(pwd)"
+
             PHP="/opt/plesk/php/8.3/bin/php"
 
             echo "=== Using PHP ==="
@@ -42,7 +45,7 @@ jobs:
 
             echo "=== Composer ==="
             which composer || true
-            composer -V || true
+            "$PHP" $(command -v composer) -V || true
 
             echo "=== Update repo ==="
             git fetch origin
