@@ -47,6 +47,7 @@ return new class extends Migration
                 'stock_item'            => ['type' => 'boolean', 'default' => 0, 'after' => 'sku'],
                 'offer_qty'             => ['type' => 'integer', 'default' => 1, 'after' => 'stock_item'],
                 'offer_price'           => ['type' => 'decimal', 'precision' => 24, 'scale' => 2, 'nullable' => true, 'after' => 'offer_qty'],
+                'cost_price'           => ['type' => 'decimal', 'precision' => 24, 'scale' => 2, 'nullable' => true],
                 'producer_id'           => ['type' => 'integer', 'nullable' => true, 'after' => 'offer_price'],
                 'unit_qty'              => ['type' => 'integer', 'nullable' => true, 'after' => 'unit_id'],
                 'food_variations'       => ['type' => 'text', 'nullable' => true, 'after' => 'images'],
