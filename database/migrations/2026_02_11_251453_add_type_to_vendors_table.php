@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::table('vendors', function (Blueprint $table) {
             $table->string('type')->default('zipsy_plus');
+            $table->string('bank_name')->nullable();
         });
     }
 
@@ -16,6 +17,7 @@ return new class extends Migration {
     {
         Schema::table('vendors', function (Blueprint $table) {
             $table->dropColumn('type');
+            $table->dropColumn('bank_name');
         });
     }
 };
