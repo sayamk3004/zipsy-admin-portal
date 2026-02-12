@@ -9071,4 +9071,8 @@ Smartly or Earn. ',
   'jpeg, jpg, png, gif, webp. Less Than 2MB' => 'Jpeg, jpg, png, gif, webp. Less Than 2MB',
   'The images must be a file of type: jpeg, jpg, png, gif, webp.' => 'The images must be a file of type: jpeg, jpg, png, gif, webp.',
   'please_select_business_plan' => 'Please select business plan',
+  'want_to_Turn_ON_the_Vendor_App_addon?' => 'Want to Turn ON the Vendor App addon?',
+  'want_to_Turn_OFF_the_Vendor_App_addon?' => 'Want to Turn OFF the Vendor App addon?',
+  'want_to_Turn_ON_the_React_Website_addon?' => 'Want to Turn ON the React Website addon?',
+  'want_to_Turn_OFF_the_React_Website_addon?' => 'Want to Turn OFF the React Website addon?',
 );

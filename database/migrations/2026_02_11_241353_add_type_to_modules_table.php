@@ -10,7 +10,6 @@ return new class extends Migration {
         Schema::table('modules', function (Blueprint $table) {
             $table->string('type')->default('zipsy_plus');
             $table->integer('zone_id')->nullable();
-            // or ->default('general') if you want a default
         });
     }
 

@@ -8,7 +8,6 @@ return new class extends Migration {
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->string('type')->default('zipsy_plus')->after('module_id');
-            // or ->default('general') if you want a default
         });
     }
 
