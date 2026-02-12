@@ -8,10 +8,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->decimal('cost_price', 24, 2)->default(0.00);
+            $table->decimal('cost_price', 24, 2)->nullable()->default(0.00);
 
-            $table->integer('normal_selling_price_deal')->default(0);
-            $table->integer('normal_selling_discount_deal')->default(0);
+            $table->integer('normal_selling_price_deal')->nullable()->default(0);
+            $table->integer('normal_selling_discount_deal')->nullable()->default(0);
 
             $table->text('ingredient_nutrition')->nullable();
             $table->text('other_info')->nullable();
@@ -31,14 +31,14 @@ return new class extends Migration {
             $table->date('promotion_ends_at')->nullable();
 
             $table->boolean('a_pound_or_less')->default(0);
-            $table->boolean('offer_item')->default(0);
-            $table->boolean('bulk_buys')->default(0);
+            $table->boolean('offer_item')->nullable()->default(0);
+            $table->boolean('bulk_buys')->nullable()->default(0);
 
             $table->string('sku', 255)->nullable();
-            $table->boolean('stock_item')->default(0);
+            $table->boolean('stock_item')->nullable()->default(0);
 
-            $table->integer('offer_qty')->default(1);
-            $table->decimal('offer_price', 24, 2)->nullable();
+            $table->integer('offer_qty')->nullable()->default(1);
+            $table->decimal('offer_price', 24, 2)->nullable()->nullable();
 
             $table->integer('producer_id')->nullable();
             $table->integer('unit_qty')->nullable();
