@@ -17,7 +17,7 @@ class ModuleController extends Controller
             $zone_id = json_decode($request->header('zoneId'), true);
 
             $zone_id = is_array($zone_id) ? $zone_id : [$zone_id];
-
+dd($zone_id);
             $modules = Module::with('zones')
                 ->withCount([
                     'items',
