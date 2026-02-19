@@ -18,85 +18,33 @@ class Item extends Model
     use HasFactory, ReportFilter;
     protected $guarded = ['id'];
     protected $with = ['translations','storage'];
-protected $casts = [
-    // --- YOUR ORIGINAL CASTS (fully preserved) ---
-    'id'                => 'integer',
-    'tax'               => 'float',
-    'price'             => 'float',
-    'status'            => 'boolean',       // was integer, but tinyint(1) → boolean
-    'discount'          => 'float',
-    'avg_rating'        => 'float',
-    'set_menu'          => 'boolean',       // was integer
-    'category_id'       => 'integer',
-    'store_id'          => 'integer',
-    'reviews_count'     => 'integer',
-    'recommended'       => 'boolean',
-    'maximum_cart_quantity' => 'integer',
-    'organic'           => 'boolean',
-    'created_at'        => 'datetime',
-    'updated_at'        => 'datetime',
-    'veg'               => 'boolean',       // was integer
-    'images'            => 'array',
-    'module_id'         => 'integer',
-    'is_approved'       => 'boolean',       // was integer
-    'stock'             => 'integer',
-    'min_price'         => 'float',
-    'max_price'         => 'float',
-    'order_count'       => 'integer',
-    'rating_count'      => 'integer',
-    'unit_id'           => 'integer',
-    'is_halal'          => 'boolean',       // was integer
-
-    // --- ADDED FROM SQL (missing in your model) ---
-    'supplier_id'       => 'integer',
-    'filter_id'         => 'integer',
-    'producer_id'       => 'integer',
-
-    'module_type'       => 'string',
-    'item_sell_type'    => 'string',
-    'deal_type'         => 'string',
-    'tax_type'          => 'string',
-    'discount_type'     => 'string',
-    'sku'               => 'string',
-    'slug'              => 'string',
-    'rating'            => 'string',
-
-    'category_ids'      => 'array',
-    'sub_filter_ids'    => 'array',
-    'variations'        => 'array',
-    'add_ons'           => 'array',
-    'attributes'        => 'array',
-    'mix_match_choice_1'=> 'array',
-    'mix_match_choice_2'=> 'array',
-    'mix_match_choice_3'=> 'array',
-    'choice_options'    => 'array',
-    'food_variations'   => 'array',
-
-    'cost_price'                => 'float',
-    'vat'                       => 'float',
-    'offer_price'               => 'float',
-
-    'normal_selling_price_deal' => 'integer',
-    'normal_selling_discount_deal' => 'integer',
-    'max_deal_quantity'         => 'integer',
-    'buy'                       => 'integer',
-    'get_item'                  => 'integer',
-    'unit_qty'                  => 'integer',
-    'offer_qty'                 => 'integer',
-
-    'age_restricted'    => 'boolean',
-    'promotional'       => 'boolean',
-    'a_pound_or_less'   => 'boolean',
-    'offer_item'        => 'boolean',
-    'bulk_buys'         => 'boolean',
-    'stock_item'        => 'boolean',
-
-    'available_time_starts' => 'datetime:H:i',
-    'available_time_ends'   => 'datetime:H:i',
-    'promotion_ends_at'     => 'date',
-
-    // 'ingredient_nutrition', 'other_info' – text, no cast needed
-];
+    protected $casts = [
+        'tax' => 'float',
+        'price' => 'float',
+        'status' => 'integer',
+        'discount' => 'float',
+        'avg_rating' => 'float',
+        'set_menu' => 'integer',
+        'category_id' => 'integer',
+        'store_id' => 'integer',
+        'reviews_count' => 'integer',
+        'recommended' => 'integer',
+        'maximum_cart_quantity' => 'integer',
+        'organic' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'veg' => 'integer',
+        'images' => 'array',
+        'module_id' => 'integer',
+        'is_approved' => 'integer',
+        'stock' => 'integer',
+        "min_price" => 'float',
+        "max_price" => 'float',
+        'order_count' => 'integer',
+        'rating_count' => 'integer',
+        'unit_id' => 'integer',
+        'is_halal' => 'integer',
+    ];
 
     protected $appends = ['unit_type', 'image_full_url', 'images_full_url'];
 
