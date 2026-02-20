@@ -15,14 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*','*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'https://zipsy.co.uk', // Specify the exact allowed origin
-        'http://localhost:3000', // Allow localhost for local development
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
