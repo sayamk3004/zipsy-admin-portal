@@ -28,7 +28,6 @@ class ModuleController extends Controller
                 })
                 ->active()
                 ->get();
-                   return $modules;
         } else {
             $modules = Module::withCount([
                 'items',
