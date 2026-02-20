@@ -19,10 +19,12 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # cors
-#    Header set Access-Control-Allow-Origin "*"
 </IfModule>
-
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "*"
+</IfModule>
 # Hide a specific file
 <Files .env>
     Order allow,deny
