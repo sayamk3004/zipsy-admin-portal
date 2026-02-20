@@ -17,14 +17,16 @@ return [
 
     'paths' => ['api/*','*'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
     'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
-
+    'allowed_headers' => [
+        'Content-Type', 'Authorization', 'X-localization', 'Accept',
+    ],
+    
     'exposed_headers' => [],
 
     'max_age' => 0,
