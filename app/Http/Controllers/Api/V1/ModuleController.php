@@ -15,7 +15,6 @@ class ModuleController extends Controller
     {
         if ($request->hasHeader('zoneId')) {
             $zone_id = json_decode($request->header('zoneId'), true);
-            return $zone_id;
             $zone_id = is_array($zone_id) ? $zone_id : [$zone_id];
             $modules = Module::with('zones')
                 ->withCount([
@@ -29,6 +28,7 @@ class ModuleController extends Controller
                 })
                 ->active()
                 ->get();
+                   return $modules;
         } else {
             $modules = Module::withCount([
                 'items',
