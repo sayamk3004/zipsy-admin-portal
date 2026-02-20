@@ -65,6 +65,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->group('api', [
+            \Illuminate\Http\Middleware\HandleCors::class,
             SubstituteBindings::class,
         ]);
 
