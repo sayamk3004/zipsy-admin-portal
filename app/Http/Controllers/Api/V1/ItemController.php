@@ -491,11 +491,11 @@ class ItemController extends Controller
                 ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
                 ->get(['min_price','max_price'])->toArray();
             }
+                 return response()->json($item, 400);
             $item = Helpers::product_data_formatting($item, false, true, app()->getLocale());
             $item['store_details'] = $store;
             return response()->json($item, 200);
         } catch (\Exception $e) {
-           return response()->json($e, 400);
             return response()->json([
                 'errors' => ['code' => 'product-001', 'message' => translate('messages.not_found'), 'error' => $e->getMessage()]
             ], 404);
