@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://zipsy.co.uk'],
+    'allowed_origins' => ['https://zipsy.co.uk','http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 

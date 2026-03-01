@@ -33,7 +33,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $with=['translations','storage'];
+    protected $with = ['translations', 'storage'];
     /**
      * The attributes that are mass assignable.
      *
@@ -79,7 +79,11 @@ class Category extends Model
 
     public function scopeModule($query, $module_id)
     {
-        return $query->where('module_id', $module_id);
+        return $query->whereHas('module', function ($query) use ($module_id) {
+            $query->where('id', $module_id)
+                ->where('status', 1);
+        });
+        // return $query->where('module_id', $module_id);
     }
 
     public function scopeActive($query)
@@ -105,17 +109,18 @@ class Category extends Model
     {
         return $this->morphMany(Storage::class, 'data');
     }
-    public function getImageFullUrlAttribute(){
+    public function getImageFullUrlAttribute()
+    {
         $value = $this->image;
         if (count($this->storage) > 0) {
             foreach ($this->storage as $storage) {
                 if ($storage['key'] == 'image') {
-                    return Helpers::get_full_url('category',$value,$storage['value']);
+                    return Helpers::get_full_url('category', $value, $storage['value']);
                 }
             }
         }
 
-        return Helpers::get_full_url('category',$value,'public');
+        return Helpers::get_full_url('category', $value, 'public');
     }
 
     protected static function boot()
@@ -126,7 +131,7 @@ class Category extends Model
             $category->save();
         });
         static::saved(function ($model) {
-            if($model->isDirty('image')){
+            if ($model->isDirty('image')) {
                 $value = Helpers::getDisk();
 
                 DB::table('storages')->updateOrInsert([
