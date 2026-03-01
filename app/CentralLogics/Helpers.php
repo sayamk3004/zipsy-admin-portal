@@ -339,13 +339,25 @@ class Helpers
                 $item['attributes'] = json_decode($item['attributes']);
                 $item['choice_options'] = json_decode($item['choice_options']);
                 $item['add_ons'] = self::addon_data_formatting(AddOn::whereIn('id', json_decode($item['add_ons'], true))->active()->get(), true, $trans, $local);
-                foreach (json_decode($item['variations'], true) ?? [] as $var) {
-                    array_push($variations, [
+                $variations = [];
+                $decoded_variations = json_decode($item['variations'], true) ?? [];
+
+                foreach ($decoded_variations as $var) {
+                    $variations[] = [
                         'type' => $var['type'],
                         'price' => (float) $var['price'],
                         'stock' => (int) ($var['stock'] ?? 0)
-                    ]);
+                    ];
                 }
+
+                $item['variations'] = $variations;
+                // foreach (json_decode($item['variations'], true) ?? [] as $var) {
+                //     array_push($variations, [
+                //         'type' => $var['type'],
+                //         'price' => (float) $var['price'],
+                //         'stock' => (int) ($var['stock'] ?? 0)
+                //     ]);
+                // }
                 $item['variations'] = $variations;
                 $item['food_variations'] = $item['food_variations'] ? json_decode($item['food_variations'], true) : '';
                 $item['module_type'] = $item->module->module_type;
@@ -498,7 +510,6 @@ class Helpers
             unset($data['nutritions']);
             unset($data['allergies']);
             unset($data['generic']);
-
         }
 
         return $data;
@@ -1156,7 +1167,6 @@ class Helpers
         } catch (\Throwable $th) {
             return null;
         }
-
     }
 
     public static function getPriorityList($name, $type, $relations = [], $json_decode = false)
@@ -1194,7 +1204,6 @@ class Helpers
         } catch (\Throwable $th) {
             return null;
         }
-
     }
 
 
@@ -1368,10 +1377,10 @@ class Helpers
         }
 
         //        $click_action = "";
-//        if($web_push_link){
-//            $click_action = ',
-//            "click_action": "'.$web_push_link.'"';
-//        }
+        //        if($web_push_link){
+        //            $click_action = ',
+        //            "click_action": "'.$web_push_link.'"';
+        //        }
 
         if (isset($data['order_id'])) {
             $postData = [
@@ -1581,7 +1590,6 @@ class Helpers
 
         if ($discount) {
             $lowest_price -= self::product_discount_calculate($product, $lowest_price, $product->store)['discount_amount'];
-
         }
         $lowest_price = self::format_currency($lowest_price);
         return $lowest_price;
@@ -1733,7 +1741,6 @@ class Helpers
                 $value = self::order_status_update_message($status, $order->module->module_type, 'en');
                 $value = self::text_variable_data_format(value: $value, store_name: $order->store?->name, order_id: $order->id, user_name: "{$customer_details['contact_person_name']}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}");
                 $user_fcm = $order->guest->fcm_token;
-
             } else {
 
                 $value = self::order_status_update_message($status, $order->module->module_type, $order->customer ?
@@ -1820,8 +1827,6 @@ class Helpers
                             self::send_push_notif_to_topic($data, $topic, 'order_request');
                         }
                         self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
-
-
                     }
                 }
                 // self::send_push_notif_to_topic($data, 'admin_message', 'order_request', url('/').'/admin/order/list/all');
@@ -1843,7 +1848,6 @@ class Helpers
                         self::send_push_notif_to_topic($data, $topic, 'order_request');
                     }
                     self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
-
                 }
                 // self::send_push_notif_to_topic($data, 'admin_message', 'order_request');
             }
@@ -2122,7 +2126,7 @@ class Helpers
                     $image = $image->encode(new WebpEncoder(quality: 80));
                     $format = 'webp';
                 }
-                $imageName = \Carbon\Carbon::now()->toDateString().'-'.uniqid().'.'.$format;
+                $imageName = \Carbon\Carbon::now()->toDateString() . '-' . uniqid() . '.' . $format;
 
                 if (! Storage::disk(self::getDisk())->exists($dir)) {
                     Storage::disk(self::getDisk())->makeDirectory($dir);
@@ -2131,9 +2135,8 @@ class Helpers
                 if ($image instanceof UploadedFile) {
                     Storage::disk(self::getDisk())->putFileAs($dir, $image, $imageName);
                 } else {
-                    Storage::disk(self::getDisk())->put($dir.'/'.$imageName, $image->toString());
+                    Storage::disk(self::getDisk())->put($dir . '/' . $imageName, $image->toString());
                 }
-
             } else {
                 $imageName = 'def.png';
             }
@@ -2999,7 +3002,6 @@ class Helpers
                 }
                 return true;
             }
-
         } catch (\Exception $exception) {
             info($exception->getMessage());
 
@@ -3108,7 +3110,6 @@ class Helpers
             info(["line___{$ex->getLine()}", $ex->getMessage()]);
             return 0;
         }
-
     }
 
     public static function get_customer_name($id)
@@ -3278,8 +3279,8 @@ class Helpers
             if ($data && $type == 's3' && Storage::disk('s3')->exists($path . '/' . $data)) {
                 return Storage::disk('s3')->url($path . '/' . $data);
                 //                $awsUrl = config('filesystems.disks.s3.url');
-//                $awsBucket = config('filesystems.disks.s3.bucket');
-//                return rtrim($awsUrl, '/') . '/' . ltrim($awsBucket . '/' . $path . '/' . $data, '/');
+                //                $awsBucket = config('filesystems.disks.s3.bucket');
+                //                return rtrim($awsUrl, '/') . '/' . ltrim($awsBucket . '/' . $path . '/' . $data, '/');
             }
         } catch (\Exception $e) {
         }
@@ -3392,7 +3393,6 @@ class Helpers
                     'max_discount' => $percent_bonus?->max_discount ?? 0,
                     'id' => $percent_bonus?->id,
                 ];
-
             } elseif ($a_bonus == $cashback_amount) {
                 $data = [
                     'calculated_amount' => (float) $cashback_amount,
@@ -3409,7 +3409,6 @@ class Helpers
             info([$exception->getFile(), $exception->getLine(), $exception->getMessage()]);
             return $data;
         }
-
     }
 
 
@@ -3433,10 +3432,8 @@ class Helpers
 
         if ($validity_unit == 'day') {
             $validity_end_date = (new DateTime($user_creation_date))->modify("+$validity_value day");
-
         } elseif ($validity_unit == 'month') {
             $validity_end_date = (new DateTime($user_creation_date))->modify("+$validity_value month");
-
         } elseif ($validity_unit == 'year') {
             $validity_end_date = (new DateTime($user_creation_date))->modify("+$validity_value year");
         } else {
@@ -3525,7 +3522,6 @@ class Helpers
                 if ($store_subscription->max_order != 'unlimited' && $store_subscription->max_order > 0) {
                     $add_orders = $store_subscription->max_order;
                 }
-
             } elseif ($store_old_subscription && $store_old_subscription->package_id == $package->id && $type == 'renew') {
                 $store_subscription = $store_old_subscription;
                 $store_subscription->total_package_renewed = $store_subscription->total_package_renewed + 1;
@@ -3536,7 +3532,6 @@ class Helpers
                 ]);
                 $store_subscription = new StoreSubscription();
                 $store_subscription->total_package_renewed = 0;
-
             }
 
             $store_subscription->is_trial = 0;
@@ -3586,11 +3581,9 @@ class Helpers
             if ($type == 'new_join' && $store->vendor?->status == 0) {
                 $store->status = 0;
                 $store_subscription->status = 0;
-
             } else {
                 $store->status = 1;
                 $store_subscription->status = 1;
-
             }
 
             // For Store Free Delivery
@@ -3663,9 +3656,9 @@ class Helpers
                 'transaction_type' => 'pending_bill',
                 'is_success' => 0
             ])->update([
-                        'is_success' => 1,
-                        'reference' => 'payment_via_' . $payment_method . ' _transaction_id_' . $subscription_transaction->id
-                    ]);
+                'is_success' => 1,
+                'reference' => 'payment_via_' . $payment_method . ' _transaction_id_' . $subscription_transaction->id
+            ]);
 
             if ($reference == 'plan_shift_by_admin') {
                 $billing = new SubscriptionBillingAndRefundHistory();
@@ -3677,8 +3670,6 @@ class Helpers
                 $billing->amount = $package->price;
                 $billing->save();
             }
-
-
         } catch (\Exception $e) {
             DB::rollBack();
             info(["line___{$e->getLine()}", $e->getMessage()]);
@@ -3753,8 +3744,6 @@ class Helpers
                     $url = route('subscription_invoice', ['id' => base64_encode($subscription_transaction->id)]);
                     Mail::to($store->email)->send(new SubscriptionSuccessful($store->name, $url));
                 }
-
-
             } elseif ($store->module->module_type == 'rental' && config('mail.status')) {
 
                 if (self::get_mail_status('rental_subscription_renew_mail_status_provider') == '1' && $type == 'renew' && self::getRentalNotificationStatusData('provider', 'provider_subscription_renew', 'mail_status', $store->id)) {
@@ -3787,7 +3776,6 @@ class Helpers
                     'updated_at' => now()
                 ]);
             }
-
         } catch (\Exception $ex) {
             info($ex->getMessage());
         }
@@ -3840,7 +3828,6 @@ class Helpers
             $subscription_business_model = self::get_business_settings('subscription_business_model');
         }
         return $subscription_business_model ?? 1;
-
     }
 
     public static function commission_check()
@@ -3888,10 +3875,8 @@ class Helpers
                     $refund->amount = $back_amount;
                     $refund->reference = 'validity_left_' . $add_days;
                     $refund->save();
-
                 }
             }
-
         }
 
         return true;
@@ -4081,12 +4066,10 @@ class Helpers
             $methods = DB::table('addon_settings')->where('is_active', 1)->where('settings_type', 'payment_config')->get();
             $env = env('APP_ENV') == 'live' ? 'live' : 'test';
             $credentials = $env . '_values';
-
         } else {
             $methods = DB::table('addon_settings')->where('is_active', 1)->whereIn('settings_type', ['payment_config'])->whereIn('key_name', ['ssl_commerz', 'paypal', 'stripe', 'razor_pay', 'senang_pay', 'paytabs', 'paystack', 'paymob_accept', 'paytm', 'flutterwave', 'liqpay', 'bkash', 'mercadopago'])->get();
             $env = env('APP_ENV') == 'live' ? 'live' : 'test';
             $credentials = $env . '_values';
-
         }
 
         $data = [];
@@ -4103,7 +4086,6 @@ class Helpers
             }
         }
         return $data;
-
     }
 
 
@@ -4231,18 +4213,18 @@ class Helpers
                     $query->where('module_type', 'rental');
                 })
                 ->withoutGlobalScopes()->select('id')->withCount([
-                        'orders as total_orders',
-                        'orders as canceled_orders' => function ($query) {
-                            $query->where('order_status', 'canceled');
-                        }
-                    ])->get()->filter(function ($store) {
-                        if ($store->canceled_orders > 0) {
-                            $cancellationRate = ($store->canceled_orders / $store->total_orders) * 100;
-                            $store['cancellation_rate'] = $cancellationRate;
-                            return $cancellationRate >= self::get_business_settings('order_cancelation_rate_block_limit');
-                        }
-                        return false;
-                    });
+                    'orders as total_orders',
+                    'orders as canceled_orders' => function ($query) {
+                        $query->where('order_status', 'canceled');
+                    }
+                ])->get()->filter(function ($store) {
+                    if ($store->canceled_orders > 0) {
+                        $cancellationRate = ($store->canceled_orders / $store->total_orders) * 100;
+                        $store['cancellation_rate'] = $cancellationRate;
+                        return $cancellationRate >= self::get_business_settings('order_cancelation_rate_block_limit');
+                    }
+                    return false;
+                });
             $storeIds = $stores->pluck('id');
 
             Store::whereIn('id', $storeIds)->update(['status' => 0]);
@@ -4480,7 +4462,6 @@ class Helpers
         foreach ($employees as $employee) {
             self::send_push_notif_to_device($employee->firebase_token, $data);
         }
-
     }
 
 
@@ -4656,7 +4637,6 @@ class Helpers
                 $dmWallet?->save();
             }
             DB::commit();
-
         } catch (\Exception $exception) {
             info(["line___{$exception->getLine()}", $exception->getMessage()]);
             DB::rollback();
@@ -4680,14 +4660,11 @@ class Helpers
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
-
             }
-
         } catch (\Exception $exception) {
             info(["line___{$exception->getLine()}", $exception->getMessage()]);
         }
         return ['status_code' => 200, 'code' => 'loyalty_point', 'data' => $loyalty_point_transaction];
-
     }
 
     public static function generate_transaction_id($model, $column = 'transaction_id')
@@ -4721,9 +4698,7 @@ class Helpers
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
-
             }
-
         } catch (\Exception $exception) {
             info(["line___{$exception->getLine()}", $exception->getMessage()]);
         }
@@ -4736,18 +4711,18 @@ class Helpers
         }
 
         if ($image->getSize() > MAX_FILE_SIZE * 1024 * 1024) {
-            throw new InvalidUploadException('File size exceeds the limit of '.MAX_FILE_SIZE.'MB');
+            throw new InvalidUploadException('File size exceeds the limit of ' . MAX_FILE_SIZE . 'MB');
         }
 
-        $allowedExtensions = explode(',', IMAGE_EXTENSION.','.VIDEO_EXTENSION.','.DOCUMENT_EXTENSION.','.AUDIO_EXTENSION.','.FILE_EXTENSION);
+        $allowedExtensions = explode(',', IMAGE_EXTENSION . ',' . VIDEO_EXTENSION . ',' . DOCUMENT_EXTENSION . ',' . AUDIO_EXTENSION . ',' . FILE_EXTENSION);
         $allowedExtensions = array_map(function ($ext) {
             return str_replace('.', '', trim($ext));
         }, $allowedExtensions);
 
         $extension = strtolower($image->getClientOriginalExtension());
 
-        if(!$extension || $extension == '') {
-            $extension= self::extensionFromMimeType($image->getMimeType());
+        if (!$extension || $extension == '') {
+            $extension = self::extensionFromMimeType($image->getMimeType());
         }
 
         if (! in_array($extension, $allowedExtensions)) {
@@ -4755,37 +4730,37 @@ class Helpers
         }
     }
 
-   public static function extensionFromMimeType(string $mimeType): string
+    public static function extensionFromMimeType(string $mimeType): string
     {
         $mimeType = strtolower($mimeType);
 
         $map = [
-        // images
-        'image/jpeg' => 'jpg',   // jpeg / jpg
-        'image/png'  => 'png',
-        'image/gif'  => 'gif',
-        'image/webp' => 'webp',
+            // images
+            'image/jpeg' => 'jpg',   // jpeg / jpg
+            'image/png'  => 'png',
+            'image/gif'  => 'gif',
+            'image/webp' => 'webp',
 
-        // video
-        'video/mp4'  => 'mp4',
-        'video/webm' => 'webm',
-        'video/ogg'  => 'ogg',
+            // video
+            'video/mp4'  => 'mp4',
+            'video/webm' => 'webm',
+            'video/ogg'  => 'ogg',
 
-        // audio
-        'audio/mpeg' => 'mp3',
-        'audio/wav'  => 'wav',
-        'audio/ogg'  => 'ogg',
+            // audio
+            'audio/mpeg' => 'mp3',
+            'audio/wav'  => 'wav',
+            'audio/ogg'  => 'ogg',
 
-        // documents
-        'application/pdf' => 'pdf',
-        'application/msword' => 'doc',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-        'application/vnd.ms-excel' => 'excel',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'excel',
+            // documents
+            'application/pdf' => 'pdf',
+            'application/msword' => 'doc',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+            'application/vnd.ms-excel' => 'excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'excel',
 
-        // archive / misc
-        'application/zip' => 'zip',
-        'application/octet-stream' => 'p8',
+            // archive / misc
+            'application/zip' => 'zip',
+            'application/octet-stream' => 'p8',
         ];
 
         if (isset($map[$mimeType])) {
@@ -4794,9 +4769,4 @@ class Helpers
 
         return explode('/', $mimeType)[1] ?? '';
     }
-
 }
-
-
-
-
