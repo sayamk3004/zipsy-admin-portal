@@ -496,7 +496,7 @@ class ItemController extends Controller
             return response()->json($item, 200);
         } catch (\Exception $e) {
             return response()->json([
-                'errors' => ['code' => 'product-001', 'message' => translate('messages.not_found')]
+                'errors' => ['code' => 'product-001', 'message' => translate('messages.not_found'), 'error' => json_encode($e)]
             ], 404);
         }
     }
