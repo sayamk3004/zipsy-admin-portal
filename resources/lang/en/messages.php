@@ -9076,4 +9076,5 @@ Smartly or Earn. ',
   'want_to_Turn_ON_the_React_Website_addon?' => 'Want to Turn ON the React Website addon?',
   'want_to_Turn_OFF_the_React_Website_addon?' => 'Want to Turn OFF the React Website addon?',
   'Flowers & Gifts Direct' => 'Flowers & Gifts Direct',
+  'Zipsy Local' => 'Zipsy Local',
 );
