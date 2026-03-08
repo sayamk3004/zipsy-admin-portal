@@ -15,12 +15,12 @@ class SupplierController extends Controller
             return $query->where('name', 'like', '%' . $request->search . '%');
         })->paginate(10);
 
-        return view('admin.users.suppliers.index', compact('suppliers'));
+        return view('admin.suppliers.index', compact('suppliers'));
     }
 
     public function create()
     {
-        return view('admin.users.suppliers.create');
+        return view('admin.suppliers.create');
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class SupplierController extends Controller
 
     public function edit(Supplier $supplier)
     {
-        return view('admin.users.suppliers.edit', compact('supplier'));
+        return view('admin.suppliers.edit', compact('supplier'));
     }
 
     public function update(Request $request, Supplier $supplier)
