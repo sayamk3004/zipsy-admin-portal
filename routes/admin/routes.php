@@ -51,8 +51,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get(Zone::GET_ALL_ZONE_COORDINATES[URI] . '/{id?}', [ZoneController::class, 'getAllZoneCoordinates'])->name('zone.zoneCoordinates');
 
     Route::group(['middleware' => ['admin', 'current-module', 'actch:admin_panel']], function () {
-        Route::resource('suppliers', SupplierController::class);
-
 
         Route::post('search-routing', 'SearchRoutingController@index')->name('search.routing');
         Route::get('recent-search', 'SearchRoutingController@recentSearch')->name('recent.search');
@@ -275,6 +273,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         });
 
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+            Route::resource('suppliers', SupplierController::class);
+
             Route::group(['prefix' => 'custom-role', 'as' => 'custom-role.', 'middleware' => ['module:custom_role']], function () {
                 Route::get(CustomRole::ADD[URI], [CustomRoleController::class, 'index'])->name('create');
                 Route::post(CustomRole::ADD[URI], [CustomRoleController::class, 'add'])->name('create');
