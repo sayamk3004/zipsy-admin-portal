@@ -216,7 +216,26 @@
                 @endif
                 <!-- End customer Section -->
 
-
+                                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/suppliers*') ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:" title="{{ translate('messages.supplier') }}">
+                        <i class="tio-store nav-icon"></i>
+                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('messages.suppliers') }}</span>
+                    </a>
+                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display:{{ Request::is('admin/suppliers*') ? 'block' : 'none' }}">
+                        <li class="nav-item {{ Request::is('admin/suppliers/create') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.suppliers.create') }}" title="{{ translate('messages.add_new_supplier') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.add_new') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ Request::is('admin/suppliers/index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.suppliers.index') }}" title="{{ translate('messages.supplier_list') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.list') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <!-- Employee-->
 
