@@ -54,7 +54,7 @@
                                 <i class="tio-download-to mr-1"></i> {{ translate('messages.export') }}
                             </a>
 
-                            <div id="suppliersExportDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
+                            {{-- <div id="suppliersExportDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
                                 <span class="dropdown-header">{{ translate('messages.download_options') }}</span>
                                 <a id="export-excel" class="dropdown-item" href="{{ route('admin.users.suppliers.export', ['type'=>'excel', request()->getQueryString()]) }}">
                                     <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('public/assets/admin/svg/components/excel.svg') }}" alt="Excel Icon">
@@ -64,7 +64,7 @@
                                     <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('public/assets/admin/svg/components/placeholder-csv-format.svg') }}" alt="CSV Icon">
                                     .{{ translate('messages.csv') }}
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                         <!-- End Unfold -->
                     </div>
