@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
-    // Constructor to apply admin authorization to the controller
-    public function __construct()
-    {
-        // Ensure only admins can access these routes
-        $this->middleware('auth'); // Ensure user is authenticated
-        $this->middleware('admin'); // Ensure user is an admin
-    }
 
     public function index(Request $request)
     {
