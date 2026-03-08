@@ -20,7 +20,7 @@
         </h1>
     </div>
     <!-- Content Row -->
-    <form action="{{ route('admin.suppliers.update', $supplier->id) }}" method="post" enctype="multipart/form-data" class="js-validate">
+    <form action="{{ route('admin.users.suppliers.update', $supplier->id) }}" method="post" enctype="multipart/form-data" class="js-validate">
         @csrf
         @method('PUT')
         <div class="card mb-4">

@@ -22,12 +22,12 @@ class SupplierController extends Controller
             return $query->where('name', 'like', '%' . $request->search . '%');
         })->paginate(10);
 
-        return view('admin.suppliers.index', compact('suppliers'));
+        return view('admin.users.suppliers.index', compact('suppliers'));
     }
 
     public function create()
     {
-        return view('admin.suppliers.create');
+        return view('admin.users.suppliers.create');
     }
 
     public function store(Request $request)
@@ -38,12 +38,12 @@ class SupplierController extends Controller
 
         Supplier::create($request->all());
 
-        return redirect()->route('admin.suppliers.index')->with('success', 'Supplier created successfully');
+        return redirect()->route('admin.users.suppliers.index')->with('success', 'Supplier created successfully');
     }
 
     public function edit(Supplier $supplier)
     {
-        return view('admin.suppliers.edit', compact('supplier'));
+        return view('admin.users.suppliers.edit', compact('supplier'));
     }
 
     public function update(Request $request, Supplier $supplier)
@@ -54,13 +54,13 @@ class SupplierController extends Controller
 
         $supplier->update($request->all());
 
-        return redirect()->route('admin.suppliers.index')->with('success', 'Supplier updated successfully');
+        return redirect()->route('admin.users.suppliers.index')->with('success', 'Supplier updated successfully');
     }
 
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
 
-        return redirect()->route('admin.suppliers.index')->with('success', 'Supplier deleted successfully');
+        return redirect()->route('admin.users.suppliers.index')->with('success', 'Supplier deleted successfully');
     }
 }

@@ -20,7 +20,7 @@
         </h1>
     </div>
     <!-- Content Row -->
-    <form action="{{ route('admin.suppliers.store') }}" method="post" enctype="multipart/form-data" class="js-validate">
+    <form action="{{ route('admin.users.suppliers.store') }}" method="post" enctype="multipart/form-data" class="js-validate">
         @csrf
         <div class="card mb-4">
             <div class="card-header">

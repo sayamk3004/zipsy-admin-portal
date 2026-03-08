@@ -19,7 +19,7 @@
                     {{ translate('messages.supplier_list') }}
                 </span>
             </h1>
-            <a href="{{ route('admin.suppliers.create') }}" class="btn btn--primary mb-3">
+            <a href="{{ route('admin.users.suppliers.create') }}" class="btn btn--primary mb-3">
                 <i class="tio-add-circle"></i>
                 <span class="text">{{ translate('messages.add_new') }}</span>
             </a>
@@ -56,11 +56,11 @@
 
                             <div id="suppliersExportDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
                                 <span class="dropdown-header">{{ translate('messages.download_options') }}</span>
-                                <a id="export-excel" class="dropdown-item" href="{{ route('admin.suppliers.export', ['type'=>'excel', request()->getQueryString()]) }}">
+                                <a id="export-excel" class="dropdown-item" href="{{ route('admin.users.suppliers.export', ['type'=>'excel', request()->getQueryString()]) }}">
                                     <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('public/assets/admin/svg/components/excel.svg') }}" alt="Excel Icon">
                                     {{ translate('messages.excel') }}
                                 </a>
-                                <a id="export-csv" class="dropdown-item" href="{{ route('admin.suppliers.export', ['type'=>'csv', request()->getQueryString()]) }}">
+                                <a id="export-csv" class="dropdown-item" href="{{ route('admin.users.suppliers.export', ['type'=>'csv', request()->getQueryString()]) }}">
                                     <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{ asset('public/assets/admin/svg/components/placeholder-csv-format.svg') }}" alt="CSV Icon">
                                     .{{ translate('messages.csv') }}
                                 </a>
@@ -94,10 +94,10 @@
                                         <td>{{ $supplier->email }}</td>
                                         <td>
                                             <div class="btn--container justify-content-center">
-                                                <a class="btn action-btn btn--primary btn-outline-primary" href="{{ route('admin.suppliers.edit', [$supplier->id]) }}" title="{{ translate('messages.edit_supplier') }}"><i class="tio-edit"></i></a>
+                                                <a class="btn action-btn btn--primary btn-outline-primary" href="{{ route('admin.users.suppliers.edit', [$supplier->id]) }}" title="{{ translate('messages.edit_supplier') }}"><i class="tio-edit"></i></a>
                                                 <a class="btn action-btn btn--danger btn-outline-danger form-alert" href="javascript:" data-id="supplier-{{$supplier->id}}" data-message="{{ translate('messages.want_to_delete_this_supplier') }}" title="{{ translate('messages.delete_supplier') }}"><i class="tio-delete-outlined"></i></a>
                                             </div>
-                                            <form action="{{ route('admin.suppliers.destroy', [$supplier->id]) }}" method="post" id="supplier-{{$supplier->id}}">
+                                            <form action="{{ route('admin.users.suppliers.destroy', [$supplier->id]) }}" method="post" id="supplier-{{$supplier->id}}">
                                                 @csrf @method('delete')
                                             </form>
                                         </td>
