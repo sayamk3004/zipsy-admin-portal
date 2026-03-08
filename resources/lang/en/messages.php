@@ -620,7 +620,7 @@
   'to_wallet' => 'To wallet',
   'fund_added_successfully' => 'Fund added successfully',
   'customer_wallet_report' => 'Customer wallet report',
-  'add_fund_by_admin' => 'Add fund by admin',
+  'add_fund_by_admin' => 'Funds Added By Admin',
   'add_fund_by_customer' => 'Add fund by customer',
   'refund_order' => 'Refund order',
   'admin_bonus' => 'Admin bonus',
