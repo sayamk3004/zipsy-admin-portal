@@ -128,7 +128,7 @@ class PasswordResetController extends Controller
 
                     return response()->json([
                         'errors' => [
-                            ['code' => 'otp', 'message' => translate('messages.failed_to_send_mail'), 'forget_password_mail_status_user' =>  Helpers::get_mail_status('forget_password_mail_status_user'), 'email' => $email]
+                            ['code' => 'otp', 'message' => translate('messages.failed_to_send_mail'), 'forget_password_mail_status_user' =>  Helpers::get_mail_status('forget_password_mail_status_user')]
                         ]
                     ], 403);
                 }
