@@ -1,4 +1,4 @@
-<?php return array (
+<?php return array(
   'attributes' => 'Attributes',
   'add_new_attribute' => 'Add new attribute',
   'default' => 'Default',
@@ -478,6 +478,9 @@
   'subscribed_emails' => 'Subscribed emails',
   'subscribed_mail_list' => 'Subscribed mail list',
   'contact_messages' => 'Contact messages',
+  'suppliers'     => 'Suppliers',
+  'supplier'     => 'Supplier',
+  'supplier_list'     => 'Suppliers List',
   'employee' => 'Employee',
   'employee_Role' => 'Employee Role',
   'Employee' => 'Employee',

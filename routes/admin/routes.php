@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\Item\AddonCategoryController;
 use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SurgePriceController;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -50,7 +51,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get(Zone::GET_ALL_ZONE_COORDINATES[URI] . '/{id?}', [ZoneController::class, 'getAllZoneCoordinates'])->name('zone.zoneCoordinates');
 
     Route::group(['middleware' => ['admin', 'current-module', 'actch:admin_panel']], function () {
-            Route::resource('suppliers', SupplierController::class);
+        Route::resource('suppliers', SupplierController::class);
 
 
         Route::post('search-routing', 'SearchRoutingController@index')->name('search.routing');
@@ -196,7 +197,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('/copy-advertisement/{advertisement}', [AdvertisementController::class, 'copyAdd'])->name('copyAdd');
             Route::get('/updateDate/{advertisement}', [AdvertisementController::class, 'updateDate'])->name('updateDate');
             Route::post('/copy-add-post/{advertisement}', [AdvertisementController::class, 'copyAddPost'])->name('copyAddPost');
-
         });
 
 
@@ -328,8 +328,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::group(['middleware' => ['module:deliveryman']], function () {
                     Route::get(DeliveryMan::ADD[URI], [DeliveryManController::class, 'getAddView'])->name('add');
                     Route::post(DeliveryMan::ADD[URI], [DeliveryManController::class, 'add'])->name('store');
-                    Route::get(DeliveryMan::LIST [URI], [DeliveryManController::class, 'index'])->name('list');
-                    Route::get(DeliveryMan::NEW [URI], [DeliveryManController::class, 'getNewDeliveryManView'])->name('new');
+                    Route::get(DeliveryMan::LIST[URI], [DeliveryManController::class, 'index'])->name('list');
+                    Route::get(DeliveryMan::NEW[URI], [DeliveryManController::class, 'getNewDeliveryManView'])->name('new');
                     Route::get(DeliveryMan::DENY[URI], [DeliveryManController::class, 'getDeniedDeliveryManView'])->name('deny');
                     Route::get(DeliveryMan::PREVIEW[URI] . '/{id}/{tab?}', [DeliveryManController::class, 'getPreview'])->name('preview');
                     Route::get(DeliveryMan::STATUS[URI] . '/{id}/{status}', [DeliveryManController::class, 'updateStatus'])->name('status');

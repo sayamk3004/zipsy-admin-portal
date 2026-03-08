@@ -1,4 +1,4 @@
-<?php return array (
+<?php return array(
   'alert_store_out_from_campaign' => 'تريد متجرك من هذه الحملة؟',
   'alert_store_join_campaign' => 'تريد الانضمام إلى هذه الحملة؟',
   'about_us' => 'معلومات عنا',
@@ -2083,6 +2083,9 @@
   'Total Commission' => 'إجمالي العمولة',
   'Total Store Earnings' => 'إجمالي أرباح المتجر',
   'contact_messages' => 'اتصل بالرسائل',
+  'suppliers'     => 'Suppliers',
+  'supplier'     => 'Supplier',
+  'supplier_list'     => 'Suppliers List',
   'Search by order_id' => 'البحث حسب معرف الطلب',
   'landing_page_counter_section_updated' => 'تم تحديث قسم عداد الصفحة المقصودة',
   'contact_us_image' => 'اتصل بنا الصورة',
