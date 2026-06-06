@@ -22,6 +22,9 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
+# local-dev symlink so `php artisan serve` resolves the hardcoded public/ asset prefix
+/public/public
+
 /public/build
 /storage/pail
 .env.backup

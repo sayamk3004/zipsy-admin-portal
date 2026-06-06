@@ -76,7 +76,7 @@ class CouponLogic
         }
         else if($coupon->coupon_type == 'first_order')
         {
-            $total = Order::where(['user_id' => $user_id])->count();
+            $total = Order::where(['user_id' => $user_id])->whereNotIn('order_status', ['failed', 'canceled'])->count();
             if ($total < $coupon['limit']) {
                 return 200;
             }else{
@@ -86,7 +86,7 @@ class CouponLogic
         if ($coupon['limit'] == null) {
             return 200;
         } else {
-            $total = Order::where(['user_id' => $user_id, 'coupon_code' => $coupon['code']])->count();
+            $total = Order::where(['user_id' => $user_id, 'coupon_code' => $coupon['code']])->whereNotIn('order_status', ['failed', 'canceled'])->count();
             if ($total < $coupon['limit']) {
                 return 200;
             }else{
