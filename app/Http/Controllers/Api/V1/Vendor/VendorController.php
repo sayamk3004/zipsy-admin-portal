@@ -960,7 +960,7 @@ class VendorController extends Controller
                             'errors' => [
                                 ['code' => 'coupon', 'message' => translate('messages.coupon_expire')]
                             ]
-                        ], 407);
+                        ], 403);
                     } else if ($staus == 406) {
                         return response()->json([
                             'errors' => [

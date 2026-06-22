@@ -114,7 +114,7 @@ class CouponController extends Controller
                         'errors' => [
                             ['code' => 'coupon', 'message' => translate('messages.coupon_expire')]
                         ]
-                    ], 407);
+                    ], 403);
                 case 408:
                     return response()->json([
                         'errors' => [
