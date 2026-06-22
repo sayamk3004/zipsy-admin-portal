@@ -9084,4 +9084,5 @@ Smartly or Earn. ',
   'When It\'s Gone Its\' Gone' => 'When It s Gone Its  Gone',
   'Zipsy Go' => 'Zipsy Go',
   'Zipsy Sprint' => 'Zipsy Sprint',
+  'Pet Food Direct' => 'Pet Food Direct',
 );
