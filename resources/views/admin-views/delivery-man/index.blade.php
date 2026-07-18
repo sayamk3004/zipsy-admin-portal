@@ -396,7 +396,7 @@
                 maxCount: 5,
                 rowHeight: '120px',
                 groupClassName: 'spartan_item_wrapper size--md',
-                maxFileSize: {{ MAX_FILE_SIZE }} * 1024 * 1024,
+                maxFileSize: '',
                 placeholderImage: {
                     image: '{{ asset('public/assets/admin/img/400x400/coba-placeholder.png') }}',
                     width: '100%'
