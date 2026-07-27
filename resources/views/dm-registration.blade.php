@@ -156,10 +156,7 @@ $countryCode= strtolower($country?$country->value:'auto');
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group mb-0">
-                                        <label class="input-label">{{ translate('messages.identity_image') }}
-                                            <small
-                                            class="text-danger">*</small>
-                                        </label>
+                                        <label class="input-label">{{ translate('messages.identity_image') }}</label>
                                         <div>
                                             <div class="row" id="coba"></div>
                                         </div>
@@ -215,8 +212,7 @@ $countryCode= strtolower($country?$country->value:'auto');
                             <div class="row d-flex">
                                 <div class="col-lg-6">
                                     <div class="form-group pt-3 mb-5">
-                                        <label  class="input-label">{{ translate('messages.deliveryman_image') }}<small
-                                            class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small></label>
+                                        <label  class="input-label">{{ translate('messages.deliveryman_image') }} ( {{ translate('messages.ratio') }} 1:1 )</label>
                                         <label class="position-relative">
                                             <img class="__register-img mb-3 image--border h-140px" id="viewer"
                                                 src="{{ asset('public/assets/admin/img/upload-img.png') }}"
@@ -224,7 +220,7 @@ $countryCode= strtolower($country?$country->value:'auto');
                                             <div class="icon-file-group">
                                                 <div class="icon-file">
                                                     <input type="file" name="image" id="customFileEg1" class="form-control __form-control single_file_input"
-                                                    accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required>
+                                                    accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                                     <img src="{{asset('/public/assets/admin/img/pen.png')}}" alt="">
                                                 </div>
                                             </div>
