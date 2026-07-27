@@ -396,7 +396,7 @@
                 maxCount: 5,
                 rowHeight: '120px',
                 groupClassName: 'spartan_item_wrapper size--md',
-                maxFileSize: '',
+                maxFileSize: {{ MAX_FILE_SIZE }} * 1024 * 1024,
                 placeholderImage: {
                     image: '{{ asset('public/assets/admin/img/400x400/coba-placeholder.png') }}',
                     width: '100%'
@@ -434,7 +434,7 @@
                 maxCount: 5,
                 rowHeight: '120px',
                 groupClassName: 'col-6 spartan_item_wrapper size--md',
-                maxFileSize: '',
+                maxFileSize: {{ MAX_FILE_SIZE }} * 1024 * 1024,
                 placeholderImage: {
                     image: '{{ asset('public/assets/admin/img/400x400/img2.jpg') }}',
                     width: '100%'

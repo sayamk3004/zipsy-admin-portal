@@ -500,7 +500,7 @@ $countryCode= strtolower($country?$country->value:'auto');
             class FileUploadValidator {
                 constructor(inputElement, options = {}) {
                     this.config = {
-                        maxSize: 2, // MB
+                        maxSize: {{ MAX_FILE_SIZE }}, // MB
                         allowedTypes: ['webp', 'jpg', 'jpeg', 'png', 'gif'],
                         errorElementId: null,
                         required: true,
@@ -615,7 +615,7 @@ $countryCode= strtolower($country?$country->value:'auto');
                     const validators = [];
 
                     inputs.forEach(input => {
-                        let maxSize = options.maxSize || 2;
+                        let maxSize = options.maxSize || {{ MAX_FILE_SIZE }};
                         if (input.dataset.maxSize) {
                             maxSize = parseFloat(input.dataset.maxSize);
                         }
