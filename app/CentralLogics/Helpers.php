@@ -2129,8 +2129,12 @@ class Helpers
 
                 $format = $image->getClientOriginalExtension();
                 if (in_array($format, $validExtForWebp)) {
+                    // GD decodes to a raw bitmap of width * height * 4 bytes, so a
+                    // high-megapixel photo needs far more memory than its file size.
+                    ini_set('memory_limit', '512M');
                     $manager = new ImageManager(Driver::class);
                     $image = $manager->read($image);
+                    $image->scaleDown(width: MAX_IMAGE_DIMENSION, height: MAX_IMAGE_DIMENSION);
                     $image = $image->encode(new WebpEncoder(quality: 80));
                     $format = 'webp';
                 }

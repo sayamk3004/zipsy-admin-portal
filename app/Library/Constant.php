@@ -859,3 +859,4 @@ const FILE_FORMAT = 'pdf,doc,docx,ppt,pptx,txt,zip,rar,7z';
 const FILE_FORMAT_FOR_IMAGE_PICKER = 'jpeg|jpg|png|gif|webp';
 const FILE_EXTENSION = '.pdf,.doc,.docx,.zip,.p8';
 const MAX_FILE_SIZE = 10;
+const MAX_IMAGE_DIMENSION = 2000;
