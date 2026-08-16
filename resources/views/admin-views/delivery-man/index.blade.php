@@ -158,7 +158,7 @@
                             <div class="bg-light2 rounded h-100 d-center">
                                 <div class="text-center">
                                     <div class="mb-1">
-                                        <h4 class="mb-1">{{ translate('Deliveryman image') }} <span class="text-danger">*</span></h4>
+                                        <h4 class="mb-1">{{ translate('Deliveryman image') }}</h4>
                                     </div>
                                     <div class="mx-auto text-center">
                                         @include('admin-views.partials._image-uploader', [
@@ -238,10 +238,10 @@
                         <div class="bg-light2 rounded p-xxl-20 p-xl-3 p-3">
                             <div class="mb-0">
                                 <h4 class="mb-1">
-                                    {{ translate('Identity Image') }} <span class="text-danger">*</span>
+                                    {{ translate('Identity Image') }}
                                 </h4>
                                 <p class="mb-0 fs-12">
-                                    {{ translate(' Jpg, jpeg, png, gif, webp. Less Than 2MB') }} <span class="text-dark">(2:1)</span>
+                                    {{ translate('Jpg, jpeg, png, gif, webp. Less Than') }} {{ MAX_FILE_SIZE }}MB <span class="text-dark">(2:1)</span>
                                 </p>
                             </div>
                             <div class="form-group m-0">
@@ -481,24 +481,6 @@
                 $('#referral_code').val('');
             }
         });
-
-        $(document).on('submit', 'form', function (e) {
-    let identity_image = 0;
-
-    $(this).find('input[name="identity_image[]"]').each(function () {
-        if ($(this).val()) identity_image++;
-    });
-
-    if (identity_image === 0) {
-        e.preventDefault();  
-        e.stopImmediatePropagation(); 
-        toastr.error(`{{ translate('messages.please_upload_at_least_one_identity_image') }}`, {
-            closeButton: true,
-            progressBar: true
-        });
-        return false; 
-    }
-});
 
     </script>
 @endpush
